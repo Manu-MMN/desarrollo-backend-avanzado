@@ -22,12 +22,16 @@
   <% // contenido para usuarios logados %>
   <% if (session.userId) { %>
     <h2>Bucles</h2>
-    <% agents.forEach(agent => { %>
-      <p><%= agent.name %> tiene <%= agent.age %> años.  <a href="/agents/delete/<%= agent.id %>"><i class="bi bi-trash"></i></a></p>
+    <% agents.forEach(agent => { %>  
+      <p>
+        <img src="<%=agent.avatar ? `/avatars/${agent.avatar}` : 'https://placehold.co/60' %>" 
+        alt="avatar" width="60">
+        <%= agent.name %> tiene <%= agent.age %> años.  
+        <a href="/agents/delete/<%= agent.id %>"><i class="bi bi-trash"></i></a>
+
+      </p>
     <% }) %>
   <% } %>
-
-
 </div>
 
 <%- include('footer.ejs') %>
