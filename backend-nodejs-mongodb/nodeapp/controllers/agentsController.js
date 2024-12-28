@@ -9,6 +9,8 @@ export async function postNew(req, res, next) {
   try {
     const userId = req.session.userId
     const { name, age } = req.body
+    
+    console.log(req.file)
 
     // TODO validaciones
 
@@ -16,7 +18,8 @@ export async function postNew(req, res, next) {
     const agent = new Agent({
       name,
       age,
-      owner: userId
+      owner: userId,
+      avatar: req.file.filename //añadimos la propiedad avatar que guarda el nombre del archivo subido
     })
 
     // la guardo en base de datos

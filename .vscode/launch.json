@@ -12,11 +12,29 @@
                 "<node_internals>/**"
             ],
             "cwd":"${workspaceFolder}/backend-nodejs-mongodb/nodeapp",
+            //alternativa con program
             "program": "${workspaceFolder}/backend-nodejs-mongodb/nodeapp/server.js",
             "env": {
                 "DENUG": "nodeapp:*",
                 "NODEAPP_ENV": "development",
             },
+            "outputCapture": "std"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Npm",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd":"${workspaceFolder}/backend-nodejs-mongodb/nodeapp",
+            //alternativa con npm
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev"
+            ],
+
             "outputCapture": "std"
         }
     ]

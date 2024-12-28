@@ -1,0 +1,4 @@
+#ignoramos todo el contenido de esta carpeta
+*
+# ... expecto el gitignore
+!.gitignore

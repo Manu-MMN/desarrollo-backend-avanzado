@@ -6,6 +6,7 @@ import * as sessionManager from './lib/sessionManager.js'
 import * as homeController from './controllers/homeController.js'
 import * as loginController from './controllers/loginController.js'
 import * as agentsController from './controllers/agentsController.js'
+import upload from "./lib/uploadConfigure.js"
 
 await connectMongoose() // top level await
 console.log('Conectado a MongoDB.')
@@ -36,7 +37,7 @@ app.all('/logout', loginController.logout)
 
 // private pages
 app.get('/agents/new', sessionManager.isLoggedIn, agentsController.index)
-app.post('/agents/new', sessionManager.isLoggedIn, agentsController.postNew)
+app.post('/agents/new', sessionManager.isLoggedIn,upload.single("avatar"), agentsController.postNew)
 app.get('/agents/delete/:agentId', sessionManager.isLoggedIn, agentsController.deleteAgent)
 
 // Examples

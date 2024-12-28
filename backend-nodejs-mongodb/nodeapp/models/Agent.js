@@ -4,7 +4,8 @@ import mongoose, { Schema } from 'mongoose'
 const agentSchema = new Schema({
   name: { type: String, unique: true },
   age: { type: Number, min: 18, max: 150 },
-  owner: { type: Schema.Types.ObjectId, ref: 'User' }
+  owner: { type: Schema.Types.ObjectId, ref: 'User' },
+  avatar: String //ahora esto va a la base de datos junto con todo
 }, {
   // collection: 'agentes' // para forzar el nombre de la colección y evitar pluralización
 })
