@@ -7,13 +7,29 @@ export async function index(req, res, next) {
 
   const now = new Date()
   const userId = req.session.userId
+  const filterAge = req.query.age     //http://localhost:3000/?age=32
+  const filterName = req.query.name     //http://localhost:3000/?name=jones
+  const limit = req.query.limit     //http://localhost:3000/?limit=2
+  const skip = req.query.skip    //http://localhost:3000/?limit=2&skip=2   "como máximo 2 por página y te saltas los 2 primeros"
+  const sort = req.query.sort    //http://localhost:3000/?sort=age   ordenar por edad o por lo que sea
 
   res.locals.nombre = '<script>alert("inyeccion de codigo")</script>'
   res.locals.esPar = (now.getSeconds() % 2) === 0
   res.locals.segundoActual = now.getSeconds()
 
   if (userId) {
-    res.locals.agents = await Agent.find({ owner: userId })
+
+    const filter = { owner: userId }
+
+    if (filterAge) {
+      filter.age = filterAge
+    }
+
+      if (filterName) {
+        filter.name = { $regex: filterName, $options: "i" }; // Insensible a mayúsculas
+      }
+    
+    res.locals.agents = await Agent.list(filter, limit, skip, sort)
   }
 
   res.render('home')
