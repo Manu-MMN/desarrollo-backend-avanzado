@@ -8,7 +8,15 @@
 npm install
 ```
 
-On first deploy you can run next command to empty the database and create initial data:
+On first deploy copy .env.example to env and custumize enviroment variables
+
+```sh
+copy .env.example .env
+```
+
+
+
+ you can run next command to empty the database and create initial data:
 
 ```js
 npm run initDB

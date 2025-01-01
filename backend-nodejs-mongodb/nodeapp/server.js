@@ -1,3 +1,5 @@
+import 'dotenv/config' //dotenv, es un módulo que unifica la ruta de servidor ( en este caso mongoose) (por eso el fichero env)
+// de no querer usar donetnv, podía haber ejecutado node--env-file .env server.js   esto va sin librería pero sólo desde node 22
 import http from 'node:http'
 import debugLib from 'debug'
 import app from './app.js'

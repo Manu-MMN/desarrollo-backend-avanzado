@@ -7,6 +7,7 @@ import * as homeController from './controllers/homeController.js'
 import * as loginController from './controllers/loginController.js'
 import * as agentsController from './controllers/agentsController.js'
 import upload from "./lib/uploadConfigure.js"
+import i18n from './lib/i18nConfigure.js'
 
 await connectMongoose() // top level await
 console.log('Conectado a MongoDB.')
@@ -24,10 +25,12 @@ app.use(express.urlencoded({ extended: false })) // parsear el body que venga ur
 app.use(express.static('public'))
 
 /**
- * Application routes
+ * Website routes
  */
 
 app.use(sessionManager.middleware, sessionManager.useSessionInViews)
+
+app.use(i18n.init)  // decirle a app que utilice el middleware i18n, leerá la cabecerá, verá el idioma que le pida y elegirá en base a ese header
 
 // public pages
 app.get('/', homeController.index)

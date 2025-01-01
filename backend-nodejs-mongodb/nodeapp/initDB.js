@@ -1,3 +1,4 @@
+import 'dotenv/config'   //aquí también va, al igual que en cualquier script que "se ejecute por si mismo"
 import readline from 'node:readline'
 import connectMongoose from './lib/connectMongoose.js'
 import Agent from './models/Agent.js'

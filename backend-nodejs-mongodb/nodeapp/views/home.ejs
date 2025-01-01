@@ -6,12 +6,12 @@
 
   <p>Ejemplo de inyección de código <%= nombre %></p>
 
-  <h2>Condicionales</h2>
+  <h2><%= __('Conditionals')%></h2>
   <p>El segundo actual es: <%= segundoActual %></p>
   <% if (esPar) { %>
-    <p>El segundo actual es par.</p>
+    <p><%= __('Current second is even') %>.</p>
   <% } else { %>
-    <p>El segundo actual es impar.</p>
+    <p><%= __('Current second is odd') %>.</p>
   <% } %>
 
   <% // contenido para usuarios NO logados %>
@@ -22,7 +22,11 @@
   <% // contenido para usuarios logados %>
   <% if (session.userId) { %>
     <h2>Bucles</h2>
-    <% agents.forEach(agent => { %>  
+    <form>
+<input type="text" name="name">
+<button type="submit">buscar</button>  
+</form>
+<% agents.forEach(agent => { %>  
       <p>
         <img src="<%=agent.avatar ? `/avatars/${agent.avatar}` : 'https://placehold.co/60' %>" 
         alt="avatar" width="60">
