@@ -30,12 +30,22 @@
       <p>
         <img src="<%=agent.avatar ? `/avatars/${agent.avatar}` : 'https://placehold.co/60' %>" 
         alt="avatar" width="60">
-        <%= agent.name %> tiene <%= agent.age %> años.  
+        <!--  <%= agent.name %> tiene <%= agent.age %> años.  --> 
+        <%= __('{{name}} is {{age}} years old.', agent) %>
         <a href="/agents/delete/<%= agent.id %>"><i class="bi bi-trash"></i></a>
 
       </p>
     <% }) %>
   <% } %>
+<!-- ejemplos de pluralización acorde al estandar que proporciona i18n
+  -->
+<h2><%= __('Pluralization example') %></h2>
+<p>0 <%=__n('Mouse', 0) %></p>
+<p>1 <%=__n('Mouse', 1) %></p>
+<p>2 <%=__n('Mouse', 2) %></p>
+<p>3 <%=__n('Mouse', 3) %></p>
+<p>4 <%=__n('Mouse', 4) %></p>
+
 </div>
 
 <%- include('footer.ejs') %>

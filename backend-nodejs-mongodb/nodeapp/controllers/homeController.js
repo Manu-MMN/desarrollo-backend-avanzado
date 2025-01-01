@@ -13,7 +13,8 @@ export async function index(req, res, next) {
   const skip = req.query.skip    //http://localhost:3000/?limit=2&skip=2   "como máximo 2 por página y te saltas los 2 primeros"
   const sort = req.query.sort    //http://localhost:3000/?sort=age   ordenar por edad o por lo que sea
 
-  res.locals.nombre = '<script>alert("inyeccion de codigo")</script>'
+  // Gracias a que en app.js usamos i18n como middleware, el propio res. tiene funcionalizad para internacionalizar
+  res.locals.nombre = `'<script>alert("${res.__('code injection')}")</script>'`
   res.locals.esPar = (now.getSeconds() % 2) === 0
   res.locals.segundoActual = now.getSeconds()
 
