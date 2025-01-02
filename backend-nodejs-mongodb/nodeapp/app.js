@@ -1,6 +1,7 @@
 import express from 'express'
 import createError from 'http-errors'
 import logger from 'morgan'
+import cookieParser from 'cookie-parser'   //lector de cookies 
 import connectMongoose from './lib/connectMongoose.js'
 import * as sessionManager from './lib/sessionManager.js'
 import * as homeController from './controllers/homeController.js'
@@ -8,6 +9,7 @@ import * as loginController from './controllers/loginController.js'
 import * as agentsController from './controllers/agentsController.js'
 import upload from "./lib/uploadConfigure.js"
 import i18n from './lib/i18nConfigure.js'
+import * as languageController from './controllers/languageController.js'
 
 await connectMongoose() // top level await
 console.log('Conectado a MongoDB.')
@@ -23,6 +25,7 @@ app.use(logger('dev'))
 app.use(express.json()) // parsear el body que venga en formato JSON
 app.use(express.urlencoded({ extended: false })) // parsear el body que venga urlencoded (formularios)
 app.use(express.static('public'))
+app.use(cookieParser());
 
 /**
  * Website routes
@@ -31,6 +34,7 @@ app.use(express.static('public'))
 app.use(sessionManager.middleware, sessionManager.useSessionInViews)
 
 app.use(i18n.init)  // decirle a app que utilice el middleware i18n, leerá la cabecerá, verá el idioma que le pida y elegirá en base a ese header
+app.get('/change-locale/:locale', languageController.changeLocale)
 
 // public pages
 app.get('/', homeController.index)

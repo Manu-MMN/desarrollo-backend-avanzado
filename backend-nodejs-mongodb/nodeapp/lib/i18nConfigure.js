@@ -8,6 +8,7 @@ const i18n = new I18n({
     defaultLocale: "en", // qué idioma por defecto?
     autoReload: true, // busca cambios en los JSON locales (donde están los idiomas) y recargarlos si hubiese
     syncFiles: true, // sincroniza la información de local entre los diferentes ficheros
+    cookie: 'nodeapp-locale',  //le metemos la cookie que hemos creado en el languageController
 })
 
 export default i18n

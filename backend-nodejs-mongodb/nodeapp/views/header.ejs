@@ -23,6 +23,15 @@
             <a class="nav-link" href="/agents/new">New Agent</a>
           </li>
         </ul>
+
+           <!-- aquí va el selector de idiomas usando la función de i18n "getLocales()"-->
+            <div>
+              <% getLocales().forEach( language =>{ %>
+                <a href="/change-locale/<%=language %>"><%= language %></a>
+              <% }) %>
+            </div>
+
+        <!-- esta es la parte del login/logout-->
         <form class="d-flex" role="search">
           <% if (session.userId) { %>
             <a href="/logout" class="btn btn-outline-success" type="submit">Logout</a>
