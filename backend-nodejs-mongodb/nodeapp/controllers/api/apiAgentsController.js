@@ -9,6 +9,7 @@ export async function apiAgentList(req, res, next) {
         const limit = req.query.limit     //http://localhost:3000/api/agents?limit=2
         const skip = req.query.skip    //http://localhost:3000/api/agents?limit=2&skip=2   "como máximo 2 por página y te saltas los 2 primeros"
         const sort = req.query.sort    //http://localhost:3000/api/agents?sort=age   ordenar por edad o por lo que sea
+        const fields= req.query.fields
 
 
         const filter = { }
@@ -21,7 +22,7 @@ export async function apiAgentList(req, res, next) {
             filter.name = { $regex: filterName, $options: "i" }; // Insensible a mayúsculas
           }
 
-          const agents = await Agent.list(filter, limit, skip, sort)
+          const agents = await Agent.list(filter, limit, skip, sort, fields)
 
 
         res.json({results: agents })

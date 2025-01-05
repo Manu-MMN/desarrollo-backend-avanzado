@@ -12,12 +12,13 @@ const agentSchema = new Schema({
 })
 
 // devuelve una lista de agenters
-agentSchema.statics.list = function(filter, limit, skip, sort) {
+agentSchema.statics.list = function(filter, limit, skip, sort, fields) {
 
   const query = Agent.find(filter)    //al no tener await, devuelve un objeto query al que podemos añadir cosas
   query.limit(limit)
   query.skip(skip)
   query.sort(sort)
+  query.select(fields)   //este es select en lugar de el mismo nombre de fields
   return query.exec() //este sí devuelve una promesa
 }
 
