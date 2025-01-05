@@ -29,10 +29,11 @@ app.use(express.static('public'))
 app.use(cookieParser());
 
 /**
- * Api routes
+ * API routes
  */
 app.get("/api/agents", apiAgentsController.apiAgentList )
-
+app.get("/api/agents/:agentId", apiAgentsController.apiAgentGetOne)
+app.post("/api/agents", upload.single("avatar"), apiAgentsController.apiAgentNew)
 
 
 
@@ -89,6 +90,14 @@ app.use((err, req, res, next) => {
   }
 
   res.status(err.status || 500)
+
+  //Si es un error de la API, mandamos la respuesta en formato JSON
+  
+if (req.url.startsWith("/api/")) {
+  
+  res.json({error: err.message})
+  return
+}
 
   // set locals, only providing error in development
   res.locals.message = err.message

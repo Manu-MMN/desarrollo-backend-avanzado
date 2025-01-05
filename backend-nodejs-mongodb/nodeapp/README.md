@@ -35,3 +35,29 @@ To start in development mode:
 ```sh
 npm run dev
 ```
+
+# API
+
+Base URL: http://localhost:3000/api
+
+
+### Agent list
+
+GET /api/agents
+
+```json
+{
+    "results": [
+        {
+            "_id": "676d9c008736f8d11425cf0b",
+            "name": "Smith",
+            "age": 31,
+            "owner": "676d9c008736f8d11425cf05",
+            "__v": 0
+        },
+        // ...
+    ],
+    "count": 5
+}
+
+```
