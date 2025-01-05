@@ -2,7 +2,8 @@ import createError from 'http-errors'
 import Agent from '../models/Agent.js'
 
 export function index(req, res, next) {
-  res.render('new-agent')
+  // pasar al menos un objeto vacío como segundo argumento en res.render. Esto permite que i18n se registre correctamente
+  res.render('new-agent', { title: req.__('New Agent') });
 }
 
 export async function postNew(req, res, next) {

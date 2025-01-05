@@ -8,5 +8,12 @@
 	"Mouse": {
 		"one": "Mouse",
 		"other": "Mice"
-	}
+	},
+	"makinas": "makinas",
+	"Email address": "Email address",
+	"New Agent": "New Agent",
+	"Name": "Name",
+	"Age": "Age",
+	"Avatar": "Avatar",
+	"Submit": "Submit"
 }

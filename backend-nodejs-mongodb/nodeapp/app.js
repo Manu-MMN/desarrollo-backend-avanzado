@@ -34,6 +34,7 @@ app.use(cookieParser());
 app.use(sessionManager.middleware, sessionManager.useSessionInViews)
 
 app.use(i18n.init)  // decirle a app que utilice el middleware i18n, leerá la cabecerá, verá el idioma que le pida y elegirá en base a ese header
+// ejemplo con query string    app.get('/change-locale', languageController.changeLocale);
 app.get('/change-locale/:locale', languageController.changeLocale)
 
 // public pages
