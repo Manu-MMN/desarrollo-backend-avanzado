@@ -12,6 +12,9 @@ import i18n from './lib/i18nConfigure.js'
 import * as languageController from './controllers/languageController.js'
 import * as apiAgentsController from './controllers/api/apiAgentsController.js'
 import swaggerMiddleware from './lib/swaggerMiddleware.js'
+import * as apiLoginController from './controllers/api/apiLoginController.js'
+
+
 
 await connectMongoose() // top level await
 console.log('Conectado a MongoDB.')
@@ -32,6 +35,8 @@ app.use(cookieParser());
 /**
  * API routes
  */
+
+app.post("/api/login", apiLoginController.loginJWT)
 
 //CRUD OPERATIONS for agents resource
 app.get("/api/agents", apiAgentsController.apiAgentList )
