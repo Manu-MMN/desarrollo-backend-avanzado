@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 import User from "../../models/User.js"
 
 export async function loginJWT(req, res, next) {
-try {
+
     
     const { email, password } = req.body
 
@@ -19,7 +19,7 @@ try {
      // si encuentro y coincide la contraseña, emitimos un JWT
     jwt.sign({ _id: user._id}, process.env.JWT_SECRET, {
         expiresIn: "2d"
-     }, (err, tokenJWT) => {
+     }, (err, tokenJWT) => {    //con este callback lo hacemos asíncrono
         if (err) {
             next(err)
             return
@@ -27,7 +27,5 @@ try {
         res.json({tokenJWT})
      })
 
-} catch (error) {
-    next(error)
-}
+
 }

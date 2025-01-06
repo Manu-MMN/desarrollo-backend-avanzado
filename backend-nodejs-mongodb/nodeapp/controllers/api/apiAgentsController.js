@@ -24,7 +24,7 @@ import Agent from "../../models/Agent.js"
 
 export async function apiAgentList(req, res, next) {
     try {
-
+        console.log("el usuario es:", req.apiUserId)
         const filterAge = req.query.age     //http://localhost:3000/api/agents/?age=32
         const filterName = req.query.name     //http://localhost:3000/api/agents/?name=jones
         const limit = req.query.limit     //http://localhost:3000/api/agents?limit=2
