@@ -23,8 +23,13 @@ export async function apiAgentList(req, res, next) {
             filter.name = { $regex: filterName, $options: "i" }; // Insensible a mayúsculas
           }
 
-          const agents = await Agent.list(filter, limit, skip, sort, fields)
-          const agentCount = await Agent.countDocuments(filter)  //te cuenta todos
+          const [agents, agentCount] = await Promise.all([    
+            Agent.list(filter, limit, skip, sort, fields),//en lugar de const agents = Agent.list(filter, limit, skip, sort, fields)
+            Agent.countDocuments(filter)   //te cuenta todos.  esto era const agentCount = Agent.countDocuments(filter)
+            //ahora está dentro de promise.all y es un código más eficiente, las saca el paralelo
+
+          ])
+           
 
 
         res.json({
@@ -68,6 +73,26 @@ export async function apiAgentNew(req, res, next){
         const savedAgent = await agent.save()
 
         res.status(201).json({result: savedAgent})
+        
+    } catch (error) {
+        next(error)
+    }
+}
+
+
+export async function apiAgentUpdate(req, res, next) {
+    try {
+        const agentId = req.params.agentId
+        const agentData = req.body
+        agentData.avatar = req.file?.filename //si no han subido fichero imagen, que no falle
+
+        const updatedAgent = await Agent.findByIdAndUpdate(agentId, agentData, {
+            new: true  //por defecto, findByIdAndUpdate actualiza, pero devuelve el estado previo, con new, muestra el actualizado
+        })
+
+        res.json({
+            result: updatedAgent
+        })
         
     } catch (error) {
         next(error)
