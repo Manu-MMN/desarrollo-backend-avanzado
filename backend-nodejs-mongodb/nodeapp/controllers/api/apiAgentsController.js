@@ -5,6 +5,8 @@ import createError from 'http-errors'
  * @openapi
  * /api/agents:
  *  get:
+ * security:
+ * -bearerAuth: []
  *    description: |
  *      Return list of agents
  *      <br />

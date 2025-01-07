@@ -14,6 +14,7 @@ import * as apiAgentsController from './controllers/api/apiAgentsController.js'
 import swaggerMiddleware from './lib/swaggerMiddleware.js'
 import * as apiLoginController from './controllers/api/apiLoginController.js'
 import * as jwtAuth from './lib/jwtAuthMiddleware.js'
+import basicAuthMiddleware from './lib/basicAuthMiddleware.js'
 
 
 
@@ -61,11 +62,11 @@ app.use(i18n.init)  // decirle a app que utilice el middleware i18n, leerá la c
 app.get('/change-locale/:locale', languageController.changeLocale)
 
 // public pages
-app.get('/', homeController.index)
+app.get('/', basicAuthMiddleware, homeController.index)
 app.get('/login', loginController.index)
 app.post('/login', loginController.postLogin)
 app.all('/logout', loginController.logout)
-app.get('/api-doc', swaggerMiddleware)
+app.use('/api-doc', swaggerMiddleware)
 
 // private pages
 app.get('/agents/new', sessionManager.isLoggedIn, agentsController.index)
