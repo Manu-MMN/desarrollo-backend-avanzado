@@ -1,5 +1,5 @@
 import Agent from "../../models/Agent.js"
-
+import createError from 'http-errors'
 
 /**
  * @openapi
@@ -24,7 +24,7 @@ import Agent from "../../models/Agent.js"
 
 export async function apiAgentList(req, res, next) {
     try {
-        console.log("el usuario es:", req.apiUserId)
+        const userId = req.apiUserId
         const filterAge = req.query.age     //http://localhost:3000/api/agents/?age=32
         const filterName = req.query.name     //http://localhost:3000/api/agents/?name=jones
         const limit = req.query.limit     //http://localhost:3000/api/agents?limit=2
@@ -34,7 +34,7 @@ export async function apiAgentList(req, res, next) {
         // si no quieres id sería http://localhost:3000/api/agents?fields=name -_id)
 
 
-        const filter = { }
+        const filter = { owner: userId }  //así nos aseguramos que solo el owner logado pueda acceder a sus "productos en lista"
 
         if (filterAge) {
           filter.age = filterAge
@@ -52,7 +52,6 @@ export async function apiAgentList(req, res, next) {
           ])
            
 
-
         res.json({
             results: agents, 
             count: agentCount  //dará el número total abajo
@@ -66,10 +65,11 @@ export async function apiAgentList(req, res, next) {
 
 export async function apiAgentGetOne(req, res, next) {   // meto http://localhost:3000/api/agents/67741dabaf6a66c4f2598534 y me daría el agente con ese id
     try {
+        const userId = req.apiUserId
         
         const agentId = req.params.agentId
 
-        const agent = await Agent.findById(agentId)
+        const agent = await Agent.findOne({ _id: agentId, owner: userId})
 
         res.json({ result: agent })
 
@@ -82,12 +82,13 @@ export async function apiAgentGetOne(req, res, next) {   // meto http://localhos
 
 export async function apiAgentNew(req, res, next){
     try {
-
+        const userId = req.apiUserId
         const agentData = req.body
 
         //creamos una instancia de agente en memoria
 
         const agent = new Agent(agentData)
+        agent.owner = userId
         agent.avatar = req.file?.filename   //le decimos que este file es opcional
 
         //guardamos el agente
@@ -103,11 +104,12 @@ export async function apiAgentNew(req, res, next){
 
 export async function apiAgentUpdate(req, res, next) {
     try {
+        const userId = req.apiUserId
         const agentId = req.params.agentId
         const agentData = req.body
         agentData.avatar = req.file?.filename //si no han subido fichero imagen, que no falle
 
-        const updatedAgent = await Agent.findByIdAndUpdate(agentId, agentData, {
+        const updatedAgent = await Agent.findOneAndUpdate({ _id: agentId, owner: userId }, agentData, {
             new: true  //por defecto, findByIdAndUpdate actualiza, pero devuelve el estado previo, con new, muestra el actualizado
         })
 
@@ -123,8 +125,24 @@ export async function apiAgentUpdate(req, res, next) {
 
 export async function apiAgentDelete(req, res, next) {
     try {
-        
+        const userId = req.apiUserId
         const agentId = req.params.agentId
+
+        //validar que el documento que queremos borrar pertenece al usuario
+
+        const agent = await Agent.findOne({_id: agentId})
+
+        //Verificamos que existe
+        if (!agent) {
+            console.warn(`WARNING - el usuario ${userId} está intentando eliminar un agente inexistente`)
+            return next(createError(404)) 
+        }
+        //agent.owner es un ObjectId y para conmpararlo con un string hay que convertirlo a texto
+        //comprobamos la propiedad antes de eliminarlo
+        if (agent.owner.toString() !== userId) {
+            console.warn(`WARNING - el usuario ${userId} está intentando eliminar que es de otro usuario`)
+            return next(createError(401)) 
+        }   
 
         await Agent.deleteOne({ _id: agentId })
 
