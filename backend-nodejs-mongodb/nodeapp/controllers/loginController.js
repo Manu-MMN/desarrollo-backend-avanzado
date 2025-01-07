@@ -25,6 +25,11 @@ export async function postLogin(req, res, next) {
     req.session.userId = user._id
     req.session.userName = user.email
 
+
+    // enviar un email al usuario
+
+    await user.sendEmail("Bienvenido", "Bienvenido a Nodeapp.")
+
     // redirect a la home
     res.redirect('/')
   } catch (error) {

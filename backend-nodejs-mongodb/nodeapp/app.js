@@ -62,7 +62,7 @@ app.use(i18n.init)  // decirle a app que utilice el middleware i18n, leerá la c
 app.get('/change-locale/:locale', languageController.changeLocale)
 
 // public pages
-app.get('/', basicAuthMiddleware, homeController.index)
+app.get('/', homeController.index)
 app.get('/login', loginController.index)
 app.post('/login', loginController.postLogin)
 app.all('/logout', loginController.logout)
